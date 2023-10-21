@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>C70</title>
+    <link rel="stylesheet" href="/asset/css/all.css">
+    <style>
+.search-container{
+    background: #ffffff;
+    height: 30px;
+    
+    border-radius: 30px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.8s;
+    /* box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    inset -7px -7px 10px 0px rgba(0,0,0,.1),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+   text-shadow:  0px 0px 6px rgba(255,255,255,.3),
+              -4px -4px 6px rgba(116, 125, 136, .2);
+  text-shadow: 2px 2px 3px rgba(255,255,255,0.5); */
+  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.2),
+    inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
+}
+
+.search-container:hover > .search-input{
+    width: 400px;
+}
+
+.search-container .search-input{
+    background: transparent;
+    border: none;
+    outline:none;
+    width: 0px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: 0.8s;
+
+}
+
+.search-container .search-btn .fas{
+    color: #5cbdbb;
+}
+
+@keyframes hoverShake {
+  0% {transform: skew(0deg,0deg);}
+  25% {transform: skew(5deg, 5deg);}
+  75% {transform: skew(-5deg, -5deg);}
+  100% {transform: skew(0deg,0deg);}
+}
+
+.search-container:hover{
+  animation: hoverShake 0.15s linear 3;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 3;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup .close:hover {
+  color: #06D85F;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .popup{
+    width: 70%;
+  }
+}
+      
+.navbar{
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    height: 80px;
+    top: 10px;
+    width: 550px;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 1;
+    margin-right: 0%;
+    margin-left: 65%;
+}
+.navbar ul{
+    position: relative;
+    display: flex;
+    justify-self: flex-end;
+    height: auto;
+    align-items:center;
+    margin-right: 20px;
+    
+}
+.navbar ul li{
+    margin-right: 40px;
+    font-size: 30px;
+
+}
+.navbar ul li a{
+    color: rgb(255, 255, 255);
+    transition: all 0.1s;
+}
+.navbar ul li a div{
+    font-size: 13px;
+    text-align: center;
+}
+.center{
+    display: inline-block;
+    width:100%;
+    text-align: center;
+}
+.slow-down-animation{
+    animation-duration: 2s !important;
+}
+.navbar ul li a:hover{
+    color: #8CABFF;
+    transition: all 0.1s;
+    text-shadow: 0 0 30px #fb8cff;
+}
+*{
+    text-decoration: none;
+    margin: 0;
+    list-style: none;
+}
+
+header{
+    background-position-y: top;
+    background-size: cover;
+    background-image: url("/img/more/157f519f40aba091dd0a4173fde3466d.jpg");
+    height: 350px;
+}
+header h1 a{
+    background: linear-gradient(to right,#ee2a2a, #e1ee27, #6ae374, #00ddf6 , #1000f6, #00ddf6, #6ae374, #e1ee27, #ee2a2a );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+	  -webkit-text-fill-color: transparent;
+    animation: text-gradient-animation linear 4s infinite;
+}
+@keyframes text-gradient-animation {
+  to {
+    background-position: -200% 0;
+  }
+}
+.element {
+  font-size: 36px;
+  animation: text-gradient-animation 3s infinite;
+}
+header h1 {
+    /* margin-top: 150px; */
+    padding-top: 100px;
+    font-family: garamond;
+    font-size: 60px;
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+header div {
+    font-family: 'brush script MT';
+    font-size: 30px;
+    width: 100%;
+    text-align: center;
+    background: linear-gradient(to right, #f66b00, #ee277d, #ee302a, #c1f600, #7700f6);
+    -webkit-background-clip: text;
+    background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+nav {
+
+background-color: #20386d89;
+color: #fff;
+padding: 10px;
+}
+
+nav ul {
+display: flex;
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+
+nav ul li {
+position: relative;
+width: 100%;
+height: 50px;
+display: inline;
+vertical-align: middle;
+}
+
+nav ul li a {
+display: inline-block;
+padding-top: 14px;
+padding-bottom: 14px;
+background-color: #E6E6FA;
+width: 100%;
+text-align: center;
+color: #000000;
+text-decoration: none;
+font-weight: bold;
+border: solid rgb(131, 129, 129) 2px;
+}
+
+body {
+  margin: 20px;
+  padding: 10px;
+  background: #000428; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #000428 , #004e92); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #000428 , #004e92); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */      
+}
+main{
+  margin: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+}
+footer section a{
+  font-size: 30px;
+  color: #0026ff;
+}
+      .payment-info {
+  background: blue;
+  padding: 10px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.product-details {
+  padding: 10px;
+}
+
+
+
+.cart {
+  background: #fff;
+}
+
+.p-about {
+  font-size: 12px;
+}
+
+.table-shadow {
+  -webkit-box-shadow: 5px 5px 15px -2px rgba(0,0,0,0.42);
+  box-shadow: 5px 5px 15px -2px rgba(0,0,0,0.42);
+}
+
+.type {
+  font-weight: 400;
+  font-size: 10px;
+}
+
+label.radio {
+  cursor: pointer;
+}
+
+label.radio input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+label.radio span {
+  padding: 1px 12px;
+  border: 2px solid #ada9a9;
+  display: inline-block;
+  color: #8f37aa;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 300;
+}
+
+label.radio input:checked + span {
+  border-color: #fff;
+  background-color: blue;
+  color: #fff;
+}
+
+.credit-inputs {
+  background: rgb(102,102,221);
+  color: #fff !important;
+  border-color: rgb(102,102,221);
+}
+
+.credit-inputs::placeholder {
+  color: #fff;
+  font-size: 13px;
+}
+
+.credit-card-label {
+  font-size: 9px;
+  font-weight: 300;
+}
+
+.form-control.credit-inputs:focus {
+  background: rgb(102,102,221);
+  border: rgb(102,102,221);
+}
+
+.line {
+  border-bottom: 1px solid rgb(102,102,221);
+}
+
+.information span {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.information {
+  margin-bottom: 5px;
+}
+
+.items {
+  -webkit-box-shadow: 5px 5px 4px -1px rgba(0,0,0,0.25);
+  box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.08);
+}
+
+.spec {
+  font-size: 11px;
+}
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+ 
+    <header>
+        <h1 class="sign"> <a href="oz.html">
+            <span class="fast-flicker">C</span>OSPLA<span class="flicker">Y-TRAD</span>E-ORDER
+        </a></h1>
+        <div>Unleash Your Cosplay Journey with CTO: Where Imagination Becomes Reality!</div>
+    </header>
+    <nav>
+      <ul>
+          <li><a href="oz.html">Trang chủ</a></li>
+          <li><a href="#">Costume</a></li>
+          <li><a href="#">Phụ kiện</a></li>
+          <li><a href="#">Dịch vụ</a></li>
+          <li><a href="#">CSKH</a></li>
+      </ul>
+  </nav>
+    
+
+    <main>
+          
+      <div class="container mt-5 p-3 rounded cart">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="product-details mr-2">
+                    <div class="d-flex flex-row align-items-center"><i class="fa fa-long-arrow-left"></i><span class="ml-2">Continue Shopping</span></div>
+                    <hr>
+                    <h6 class="mb-0">Shopping cart</h6>
+                    <div class="d-flex justify-content-between"><span>bạn có 4 sản phẩm trong giỏ hàng</span>
+                        <div class="d-flex flex-row align-items-center"><span class="text-black-50">Sort by:</span>
+                            <div class="price ml-2"><span class="mr-1">price</span><i class="fa fa-angle-down"></i></div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                      <div class="d-flex flex-row"><img class="rounded" src="img/tokyorevenger/draken.jpg" width="40">
+                          <div class="ml-2"><span class="font-weight-bold d-block">cosplay tokyo revenger</span><span class="spec">Nam, XL</span></div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center"><span class="d-block">2</span><span class="d-block ml-5 font-weight-bold">$81.98</span><i class="fa fa-trash-o ml-3 text-black-50"></i></div>
+                  </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                      <div class="d-flex flex-row"><img class="rounded" src="img/Kimetsuyaiba/nez.jpg" width="40">
+                          <div class="ml-2"><span class="font-weight-bold d-block">Nezuko costumes&nbsp;</span><span class="spec">Nữ, L</span></div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center"><span class="d-block">1</span><span class="d-block ml-5 font-weight-bold">$30.00</span><i class="fa fa-trash-o ml-3 text-black-50"></i></div>
+                  </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                        <div class="d-flex flex-row"><img class="rounded" src="img/naruto/akatsuki.jpg" width="40">
+                            <div class="ml-2"><span class="font-weight-bold d-block">cosplay akatsuki</span><span class="spec">Nam, XL</span></div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center"><span class="d-block">2</span><span class="d-block ml-5 font-weight-bold">$25.58</span><i class="fa fa-trash-o ml-3 text-black-50"></i></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                        <div class="d-flex flex-row"><img class="rounded" src="img/jujutsukaisen/itadori.jpg" width="40">
+                            <div class="ml-2"><span class="font-weight-bold d-block">Itadori costumes</span><span class="spec">Nam, L</span></div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center"><span class="d-block">1</span><span class="d-block ml-5 font-weight-bold">$20.00</span><i class="fa fa-trash-o ml-3 text-black-50"></i></div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="payment-info">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span>Card details</span><img class="rounded" src="https://i.imgur.com/WU501C8.jpg" width="30"></div>
+                      <span class="type d-block mt-3 mb-1">Card type</span>
+                      <label class="radio"> <input type="radio" name="card" value="payment" checked>
+                         <span><img width="30" src="https://img.icons8.com/color/48/000000/mastercard.png"/>
+                        </span> 
+                        </label>
+
+                        <label class="radio"> <input type="radio" name="card" value="payment"> 
+                          <span><img width="30" src="https://img.icons8.com/officel/48/000000/visa.png"/>
+                          </span> </label>
+
+                        <label class="radio"> <input type="radio" name="card" value="payment"> 
+                          <span>
+                            <img width="30" src="https://img.icons8.com/ultraviolet/48/000000/amex.png"/>
+                          </span> </label>
+
+
+                        <label class="radio"> 
+                          <input type="radio" name="card" value="payment"> 
+                          <span>
+                            <img width="30" src="https://img.icons8.com/officel/48/000000/paypal.png"/>
+                          </span> </label>
+                    <div><label class="credit-card-label">Name on card</label>
+                      <input type="text" class="form-control credit-inputs" placeholder="Name">
+                    </div>
+                    <div>
+                      <label class="credit-card-label">Card number</label>
+                      <input type="text" class="form-control credit-inputs" placeholder="0000 0000 0000 0000">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><label class="credit-card-label">Date</label><input type="text" class="form-control credit-inputs" placeholder="12/24"></div>
+                        <div class="col-md-6"><label class="credit-card-label">CVV</label><input type="text" class="form-control credit-inputs" placeholder="342"></div>
+                    </div>
+                    <hr class="line">
+                    <div class="d-flex justify-content-between information"><span>Subtotal</span><span>$3000.00</span></div>
+                    <div class="d-flex justify-content-between information"><span>Shipping</span><span>$20.00</span></div>
+                    <div class="d-flex justify-content-between information"><span>Total(Incl. taxes)</span><span>$3020.00</span></div><button class="btn btn-primary btn-block d-flex justify-content-between mt-3" type="button"><span>$3020.00</span><span>Checkout<i class="fa fa-long-arrow-right ml-1"></i></span></button></div>
+            </div>
+        </div>
+    </div>
+          
+
+    </main>
+
+    <footer>
+      <section>
+          <h2>Liên hệ</h2>
+          <p style="color: azure;">Bạn có thể liên hệ với tôi qua email: <b style="color: aqua;">vinhvu5678@gmail.com</b></p>
+          <a href="https://www.facebook.com/vinhvu229/" target="_blank" class="fb">
+              <span data-icon="f" class="icon" >
+                  <span class="follow">
+                    <i class="fa-brands fa-facebook-f fa-bounce"></i>acebook
+                  </span>
+              </span>
+          </a>
+      </section>
+      <p>Bản quyền &copy; 2023 Trang web của tôi. Tất cả các quyền được bảo lưu.</p>
+    </footer>
+</body>
+</html>
